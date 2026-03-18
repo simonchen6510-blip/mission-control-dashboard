@@ -3,40 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Maxler Mission Control v2</title>
+  <title>Maxler Mission Control v2.5</title>
   <style>
     :root {
-      --bg: #050816;
-      --bg-2: #09101f;
-      --panel: rgba(9, 14, 27, 0.88);
-      --panel-2: rgba(13, 20, 36, 0.94);
-      --line: rgba(117, 136, 173, 0.14);
-      --line-strong: rgba(117, 136, 173, 0.24);
-      --text: #eef3ff;
-      --muted: #8b97b8;
-      --faint: #69748f;
-      --red: #ff6b86;
-      --blue: #65b9ff;
-      --cyan: #5ff4ff;
+      --bg: #060914;
+      --bg-2: #0b1020;
+      --panel: rgba(10, 15, 29, 0.9);
+      --panel-soft: rgba(14, 21, 39, 0.92);
+      --line: rgba(129, 150, 191, 0.12);
+      --line-strong: rgba(129, 150, 191, 0.22);
+      --text: #edf3ff;
+      --muted: #8d98b6;
+      --faint: #66708a;
+      --blue: #6dbbff;
+      --cyan: #62f3ff;
+      --red: #ff718d;
       --green: #67e7a3;
       --yellow: #ffd978;
-      --purple: #b297ff;
-      --shadow: 0 24px 70px rgba(0,0,0,0.45);
+      --purple: #b69aff;
+      --shadow: 0 22px 70px rgba(0,0,0,0.42);
       --radius: 18px;
       --radius-lg: 24px;
+      --top-offset: 20px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+
     body {
       font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
       min-height: 100vh;
       background:
-        radial-gradient(circle at 0% 0%, rgba(101,185,255,0.14), transparent 26%),
-        radial-gradient(circle at 100% 0%, rgba(255,107,134,0.12), transparent 24%),
-        radial-gradient(circle at 50% 100%, rgba(95,244,255,0.08), transparent 28%),
-        linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 58%, #03050c 100%);
+        radial-gradient(circle at 0% 0%, rgba(109,187,255,0.12), transparent 28%),
+        radial-gradient(circle at 100% 0%, rgba(255,113,141,0.11), transparent 24%),
+        linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 55%, #04060d 100%);
       padding: 20px;
     }
 
@@ -49,37 +50,26 @@
 
     .topbar {
       display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 14px;
-    }
-
-    .top-card {
+      grid-template-columns: 1.4fr 0.9fr;
+      gap: 16px;
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: var(--radius-lg);
+      padding: 18px 20px;
       box-shadow: var(--shadow);
       backdrop-filter: blur(16px);
-      padding: 18px 20px;
-    }
-
-    .brand-row {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 14px;
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      color: var(--cyan);
       font-size: 11px;
-      letter-spacing: 0.12em;
+      color: var(--cyan);
       text-transform: uppercase;
+      letter-spacing: 0.13em;
       font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .pulse {
@@ -87,63 +77,81 @@
       height: 8px;
       border-radius: 50%;
       background: var(--green);
-      box-shadow: 0 0 16px rgba(103,231,163,0.85);
+      box-shadow: 0 0 14px rgba(103,231,163,0.85);
       animation: pulse 2s infinite;
     }
 
     h1 {
-      font-size: 28px;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
+      font-size: 30px;
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      margin-bottom: 10px;
     }
 
-    .brand-subtitle {
-      margin-top: 10px;
+    .hero-copy {
       color: var(--muted);
-      line-height: 1.6;
-      max-width: 740px;
       font-size: 13px;
+      line-height: 1.7;
+      max-width: 760px;
     }
 
-    .top-metrics {
+    .top-meta {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 10px;
-      margin-top: 14px;
+      margin-top: 16px;
     }
 
-    .metric {
-      background: rgba(255,255,255,0.03);
+    .meta-box {
       border: 1px solid rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.03);
       border-radius: 14px;
-      padding: 12px 13px;
+      padding: 12px;
     }
 
-    .metric .k {
-      color: var(--faint);
+    .meta-box .k {
       font-size: 10px;
+      color: var(--faint);
       text-transform: uppercase;
       letter-spacing: 0.12em;
       font-weight: 700;
     }
 
-    .metric .v {
-      margin-top: 7px;
+    .meta-box .v {
+      margin-top: 8px;
       font-size: 24px;
       font-weight: 800;
       letter-spacing: -0.03em;
     }
 
-    .metric .s {
+    .meta-box .s {
       margin-top: 4px;
       color: var(--muted);
       font-size: 12px;
     }
 
-    .quick-panel {
+    .summary-panel {
       display: grid;
-      gap: 12px;
+      gap: 10px;
       align-content: start;
+    }
+
+    .summary-card {
+      background: linear-gradient(135deg, rgba(109,187,255,0.08), rgba(182,154,255,0.08));
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .summary-card h3 {
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .summary-card p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
     }
 
     .pill-row {
@@ -153,189 +161,168 @@
     }
 
     .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 12px;
+      padding: 9px 11px;
       border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.06);
-      color: var(--muted);
-      font-size: 12px;
     }
 
     .pill strong { color: var(--text); }
 
-    .command-box {
-      background: linear-gradient(135deg, rgba(101,185,255,0.08), rgba(178,151,255,0.08));
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 16px;
-      padding: 14px;
-    }
-
-    .command-box h3 {
-      font-size: 13px;
-      margin-bottom: 10px;
-      color: var(--text);
-    }
-
-    .command-input {
-      background: rgba(4,8,17,0.72);
-      color: #9fabc8;
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 12px;
-      padding: 12px 14px;
-      font-size: 13px;
-    }
-
     .layout {
       display: grid;
-      grid-template-columns: 320px minmax(0, 1fr) 360px;
+      grid-template-columns: minmax(0, 1fr) 280px;
       gap: 16px;
       align-items: start;
     }
 
-    .column {
+    .main-column {
       display: grid;
       gap: 16px;
-      align-content: start;
+      min-width: 0;
     }
 
-    .card {
+    .section {
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow);
       backdrop-filter: blur(16px);
-      overflow: hidden;
+      padding: 18px;
+      scroll-margin-top: 20px;
     }
 
-    .card-header {
+    .section-head {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 10px;
-      padding: 16px 18px 0;
+      gap: 12px;
       margin-bottom: 14px;
     }
 
-    .card-title {
-      font-size: 15px;
+    .section-title {
+      font-size: 18px;
       font-weight: 700;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.02em;
     }
 
-    .card-subtitle {
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .badge {
-      padding: 6px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.04);
-      color: #b8c6e8;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .body { padding: 0 18px 18px; }
-    .stack { display: grid; gap: 10px; }
-
-    .focus-card {
-      padding: 18px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(255,107,134,0.12), rgba(101,185,255,0.08));
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .focus-card h2 {
-      font-size: 30px;
-      line-height: 1.05;
-      letter-spacing: -0.04em;
-      max-width: 900px;
-    }
-
-    .focus-card p {
-      margin-top: 12px;
-      color: #c3cce3;
-      font-size: 14px;
-      line-height: 1.7;
-      max-width: 860px;
-    }
-
-    .focus-grid {
-      margin-top: 16px;
-      display: grid;
-      grid-template-columns: 1.25fr 0.95fr;
-      gap: 12px;
-    }
-
-    .subpanel {
-      background: rgba(7,12,24,0.78);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 16px;
-      padding: 14px;
-    }
-
-    .tiny-title {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--faint);
-      margin-bottom: 8px;
-      font-weight: 700;
-    }
-
-    .agenda-item, .task, .project, .memory, .agent, .doc, .capture, .log-item, .metric-panel {
-      background: rgba(7,12,24,0.82);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 16px;
-      padding: 13px 14px;
-    }
-
-    .agenda-item h4, .task h4, .project h4, .memory h4, .agent h4, .doc h4, .capture h4, .log-item h4, .metric-panel h4 {
-      font-size: 14px;
-      margin-bottom: 6px;
-    }
-
-    .agenda-item p, .task p, .project p, .memory p, .agent p, .doc p, .capture p, .log-item p, .metric-panel p {
+    .section-subtitle {
+      margin-top: 6px;
       color: var(--muted);
       font-size: 12px;
       line-height: 1.6;
     }
 
+    .badge {
+      padding: 6px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.04);
+      color: #c5d2ef;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .focus-block {
+      display: grid;
+      grid-template-columns: 1.2fr 0.88fr;
+      gap: 12px;
+    }
+
+    .focus-main {
+      border-radius: 18px;
+      padding: 18px;
+      background: linear-gradient(135deg, rgba(255,113,141,0.12), rgba(109,187,255,0.08));
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .focus-main h2 {
+      font-size: 32px;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      max-width: 850px;
+    }
+
+    .focus-main p {
+      margin-top: 12px;
+      color: #c5cee3;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .mini-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .mini-box {
+      background: rgba(8, 13, 24, 0.72);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .mini-box .k {
+      color: var(--faint);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      font-weight: 700;
+    }
+
+    .mini-box .v {
+      margin-top: 8px;
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .stack { display: grid; gap: 10px; }
+
+    .card {
+      background: var(--panel-soft);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .card h3, .item h4 { font-size: 14px; margin-bottom: 6px; }
+    .card p, .item p { color: var(--muted); font-size: 12px; line-height: 1.6; }
+
     .time {
       color: var(--cyan);
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.11em;
       font-weight: 700;
       margin-bottom: 7px;
     }
 
-    .task {
+    .priority-list, .projects-grid, .two-col, .metrics-grid { display: grid; gap: 10px; }
+
+    .item {
+      background: var(--panel-soft);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .task-item {
       display: grid;
       grid-template-columns: 8px 1fr auto;
       gap: 12px;
       align-items: start;
     }
 
-    .bar {
-      border-radius: 999px;
-      min-height: 100%;
-      background: var(--red);
-      box-shadow: 0 0 20px rgba(255,107,134,0.24);
-    }
-
+    .bar { background: var(--red); border-radius: 999px; min-height: 100%; box-shadow: 0 0 18px rgba(255,113,141,0.24); }
     .bar.yellow { background: var(--yellow); box-shadow: 0 0 18px rgba(255,217,120,0.18); }
-    .bar.blue { background: var(--blue); box-shadow: 0 0 18px rgba(101,185,255,0.18); }
+    .bar.blue { background: var(--blue); box-shadow: 0 0 18px rgba(109,187,255,0.18); }
 
     .state {
       display: inline-flex;
@@ -343,15 +330,15 @@
       gap: 7px;
       white-space: nowrap;
       border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 11px;
+      color: #caf5dd;
       background: rgba(103,231,163,0.08);
       border: 1px solid rgba(103,231,163,0.16);
-      color: #c8f5da;
-      padding: 8px 10px;
-      font-size: 11px;
       font-weight: 600;
     }
 
-    .state .mini-dot {
+    .state .dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
@@ -360,10 +347,10 @@
     }
 
     .tags {
-      margin-top: 10px;
       display: flex;
-      gap: 7px;
       flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 10px;
     }
 
     .tag {
@@ -374,123 +361,123 @@
       letter-spacing: 0.03em;
       border: 1px solid rgba(255,255,255,0.06);
       background: rgba(255,255,255,0.04);
-      color: #c4d1f0;
+      color: #c5d2ef;
     }
 
-    .tag.red { background: rgba(255,107,134,0.1); color: #ffacc0; }
-    .tag.blue { background: rgba(101,185,255,0.1); color: #9fd8ff; }
-    .tag.green { background: rgba(103,231,163,0.1); color: #aef0ca; }
-    .tag.yellow { background: rgba(255,217,120,0.1); color: #ffe2a0; }
-    .tag.purple { background: rgba(178,151,255,0.1); color: #d1c1ff; }
+    .tag.red { background: rgba(255,113,141,0.1); color: #ffafbf; }
+    .tag.blue { background: rgba(109,187,255,0.1); color: #a7daff; }
+    .tag.green { background: rgba(103,231,163,0.1); color: #b1f2ce; }
+    .tag.yellow { background: rgba(255,217,120,0.1); color: #ffe6a6; }
+    .tag.purple { background: rgba(182,154,255,0.1); color: #d8c8ff; }
 
-    .split-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
+    .projects-grid { grid-template-columns: 1fr 1fr; }
+    .two-col { grid-template-columns: 1fr 1fr; }
+    .metrics-grid { grid-template-columns: repeat(3, 1fr); }
 
-    .project .progress {
-      margin-top: 11px;
+    .progress {
+      margin-top: 10px;
       height: 7px;
       border-radius: 999px;
-      overflow: hidden;
       background: rgba(255,255,255,0.06);
+      overflow: hidden;
     }
 
-    .project .progress span {
+    .progress span {
       display: block;
       height: 100%;
       border-radius: inherit;
       background: linear-gradient(90deg, var(--blue), var(--cyan));
     }
 
-    .agent {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
-      align-items: start;
-    }
-
-    .doc a {
-      color: var(--blue);
-      text-decoration: none;
-    }
-
-    .doc a:hover { text-decoration: underline; }
-
-    .metric-rail {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .number {
-      font-size: 28px;
+    .metric-panel .number {
+      font-size: 30px;
       font-weight: 800;
       letter-spacing: -0.04em;
-      margin-top: 6px;
+      margin-top: 8px;
     }
 
-    .mini-chart {
-      height: 44px;
-      margin-top: 10px;
-      border-radius: 12px;
-      background:
-        linear-gradient(180deg, rgba(101,185,255,0.1), transparent),
-        linear-gradient(90deg,
-          rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 15%,
-          rgba(255,255,255,0.04) 30%, rgba(255,255,255,0.01) 45%,
-          rgba(255,255,255,0.04) 60%, rgba(255,255,255,0.01) 75%,
-          rgba(255,255,255,0.04) 100%);
-      position: relative;
-      overflow: hidden;
+    .sidebar {
+      position: sticky;
+      top: var(--top-offset);
+      display: grid;
+      gap: 12px;
     }
 
-    .mini-chart::after {
-      content: "";
-      position: absolute;
-      inset: 12px 10px 10px 10px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, transparent 0%, rgba(95,244,255,0.4) 15%, rgba(101,185,255,0.95) 35%, rgba(178,151,255,0.9) 62%, rgba(255,107,134,0.75) 100%);
-      clip-path: polygon(0 85%, 10% 72%, 22% 76%, 34% 48%, 48% 56%, 61% 28%, 74% 36%, 86% 18%, 100% 30%, 100% 100%, 0 100%);
-      opacity: 0.9;
+    .nav-card {
+      background: var(--panel);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      padding: 16px;
     }
 
-    .toggle-row {
-      display: flex;
+    .nav-card h3 {
+      font-size: 12px;
+      color: var(--faint);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 12px;
+    }
+
+    .nav-list {
+      display: grid;
       gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 12px;
     }
 
-    .toggle {
-      border: 1px solid rgba(255,255,255,0.07);
-      background: rgba(255,255,255,0.03);
+    .nav-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      text-decoration: none;
       color: var(--muted);
-      border-radius: 999px;
-      padding: 8px 10px;
-      font-size: 11px;
-      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: rgba(255,255,255,0.02);
+      border-radius: 14px;
+      padding: 11px 12px;
+      transition: 0.18s ease;
+      font-size: 13px;
     }
 
-    .toggle.active {
-      background: rgba(101,185,255,0.12);
+    .nav-link:hover {
       color: var(--text);
-      border-color: rgba(101,185,255,0.22);
+      border-color: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
     }
 
-    .hidden { display: none !important; }
+    .nav-link.active {
+      color: var(--text);
+      border-color: rgba(109,187,255,0.2);
+      background: rgba(109,187,255,0.08);
+      box-shadow: inset 2px 0 0 var(--blue);
+    }
+
+    .nav-meta {
+      font-size: 11px;
+      color: var(--faint);
+    }
+
+    .mini-note {
+      background: var(--panel-soft);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 13px;
+    }
+
+    .mini-note h4 { font-size: 13px; margin-bottom: 6px; }
+    .mini-note p { color: var(--muted); font-size: 12px; line-height: 1.6; }
 
     .footer {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 14px;
-      padding: 14px 18px;
-      border-radius: 18px;
+      justify-content: space-between;
+      gap: 12px;
       background: var(--panel);
       border: 1px solid var(--line);
+      border-radius: 18px;
       box-shadow: var(--shadow);
+      padding: 14px 16px;
       color: var(--muted);
       font-size: 12px;
     }
@@ -500,10 +487,9 @@
       background: linear-gradient(135deg, var(--red), #ff8f73);
       color: white;
       border-radius: 12px;
-      padding: 11px 14px;
+      padding: 10px 14px;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 12px 30px rgba(255,107,134,0.22);
     }
 
     @keyframes pulse {
@@ -511,500 +497,371 @@
       50% { opacity: .55; transform: scale(.9); }
     }
 
-    @media (max-width: 1380px) {
+    @media (max-width: 1320px) {
       .layout { grid-template-columns: 1fr; }
-      .topbar { grid-template-columns: 1fr; }
-      .focus-grid { grid-template-columns: 1fr; }
+      .sidebar { position: static; order: -1; }
+      .nav-list { grid-template-columns: 1fr 1fr; }
+      .topbar, .focus-block { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 900px) {
       body { padding: 12px; }
-      .top-metrics, .split-2, .metric-rail { grid-template-columns: 1fr 1fr; }
-      .task, .agent { grid-template-columns: 1fr; }
+      .top-meta, .mini-grid, .projects-grid, .two-col, .metrics-grid, .nav-list { grid-template-columns: 1fr; }
+      .task-item { grid-template-columns: 1fr; }
       .footer { flex-direction: column; align-items: flex-start; }
-    }
-
-    @media (max-width: 620px) {
-      .top-metrics, .split-2, .metric-rail { grid-template-columns: 1fr; }
-      h1 { font-size: 22px; }
-      .focus-card h2 { font-size: 24px; }
+      h1 { font-size: 24px; }
+      .focus-main h2 { font-size: 26px; }
     }
   </style>
 </head>
 <body>
   <div class="shell">
-    <section class="topbar">
-      <div class="top-card">
-        <div class="brand-row">
-          <div>
-            <div class="eyebrow"><span class="pulse"></span> Mission Control / V2</div>
-            <h1>Maxler AI Operating System</h1>
-            <p class="brand-subtitle">
-              这版直接往 Alex Finn 那种风格靠：更紧凑、更有 command center 感、信息更 dense，
-              而且不只是展示状态，而是围绕 <strong>Today / Projects / Memory / Agents / Docs / Metrics</strong> 做成一个能指挥的面板。
-            </p>
-          </div>
-          <div class="pill-row">
-            <div class="pill"><strong>Mode</strong> Operator</div>
-            <div class="pill"><strong>Timezone</strong> Asia/Shanghai</div>
-            <div class="pill"><strong>Status</strong> Live</div>
-          </div>
-        </div>
-        <div class="top-metrics">
-          <div class="metric">
-            <div class="k">focus blocks</div>
+    <header class="topbar">
+      <div>
+        <div class="eyebrow"><span class="pulse"></span> Mission Control / v2.5 Layout Reset</div>
+        <h1>Maxler AI Operating System</h1>
+        <p class="hero-copy">
+          这版先不继续堆功能，先把布局理顺。目标是更接近你说的那种 Alex Finn 感：
+          <strong>有固定右侧菜单、主内容有明确阅读路径、每一块信息知道自己在页面里的位置</strong>。
+        </p>
+        <div class="top-meta">
+          <div class="meta-box">
+            <div class="k">main focus</div>
             <div class="v">03</div>
-            <div class="s">今天真正重要的事</div>
+            <div class="s">今天真正该盯的事</div>
           </div>
-          <div class="metric">
+          <div class="meta-box">
             <div class="k">active agents</div>
             <div class="v">03</div>
             <div class="s">Code / Intel / Brainstorm</div>
           </div>
-          <div class="metric">
-            <div class="k">project load</div>
-            <div class="v">07</div>
-            <div class="s">活跃项目与推进中事项</div>
+          <div class="meta-box">
+            <div class="k">key projects</div>
+            <div class="v">04</div>
+            <div class="s">当前主线项目</div>
           </div>
-          <div class="metric">
+          <div class="meta-box">
             <div class="k">memory signals</div>
             <div class="v">12</div>
-            <div class="s">值得记住的变化与决策</div>
+            <div class="s">值得看的决策与变化</div>
           </div>
         </div>
       </div>
 
-      <div class="top-card quick-panel">
-        <div>
-          <div class="eyebrow">Quick capture</div>
-          <div class="command-box">
-            <h3>Command / Capture Bar</h3>
-            <div class="command-input">输入示例：给 Intel Agent 研究 Alex Finn 面板结构 / 为项目面板补真实数据 feed</div>
-            <div class="toggle-row" id="view-switches">
-              <button class="toggle active" data-view="operator">Operator View</button>
-              <button class="toggle" data-view="founder">Founder View</button>
-              <button class="toggle" data-view="builder">Builder View</button>
+      <div class="summary-panel">
+        <div class="summary-card">
+          <h3>Layout Principle</h3>
+          <p>先解决层级和导航，再谈更多功能。不然信息越多越乱。</p>
+        </div>
+        <div class="summary-card">
+          <h3>Current View</h3>
+          <p>Overview 在上，右侧目录固定，阅读顺序变成：Overview → Agenda → Projects → Agents → Memory → Docs → Metrics。</p>
+        </div>
+        <div class="pill-row">
+          <div class="pill"><strong>Mode</strong> Operator</div>
+          <div class="pill"><strong>Status</strong> Live</div>
+          <div class="pill"><strong>Refresh</strong> 45s</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <main class="main-column">
+        <section class="section" id="overview">
+          <div class="section-head">
+            <div>
+              <div class="section-title">Overview</div>
+              <div class="section-subtitle">先只说核心：现在最重要的是什么，为什么重要，接下来怎么推进。</div>
+            </div>
+            <div class="badge">Start here</div>
+          </div>
+
+          <div class="focus-block">
+            <div class="focus-main">
+              <div class="eyebrow">Primary focus</div>
+              <h2>把 Mission Control 从“信息墙”重排成“有阅读秩序的操作面板”</h2>
+              <p>
+                你刚才指出的问题很准：之前那版信息很多，但没有 Alex Finn 那种右侧菜单和强秩序感。
+                所以 v2.5 先做布局重构——减少迷路感，让每块信息都有固定位置。
+              </p>
+              <div class="mini-grid">
+                <div class="mini-box">
+                  <div class="k">priority items</div>
+                  <div class="v">3</div>
+                </div>
+                <div class="mini-box">
+                  <div class="k">layout clarity</div>
+                  <div class="v">↑</div>
+                </div>
+                <div class="mini-box">
+                  <div class="k">next step</div>
+                  <div class="v">v3</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stack">
+              <div class="card">
+                <div class="time">Now</div>
+                <h3>布局骨架已重排</h3>
+                <p>右侧固定目录 + 中间主内容流，页面开始有“目录意识”。</p>
+              </div>
+              <div class="card">
+                <div class="time">Next</div>
+                <h3>继续压缩文案噪音</h3>
+                <p>后面还可以继续减少解释型文字，让页面更冷静、更有系统感。</p>
+              </div>
+              <div class="card">
+                <div class="time">Later</div>
+                <h3>再接真实数据</h3>
+                <p>等结构稳定，再把记忆、任务、agent 状态打进去。</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="split-2">
-          <div class="capture">
-            <h4>Immediate asks</h4>
-            <p>把 dashboard 做得更像 Alex Finn，同时留好真实数据接口位。</p>
-          </div>
-          <div class="capture">
-            <h4>Next unlock</h4>
-            <p>加入 project drill-down、memory feed、agent output stream、真实任务列表。</p>
-          </div>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <section class="layout" id="dashboard-root">
-      <aside class="column">
-        <article class="card" data-panel="agenda">
-          <div class="card-header">
+        <section class="section" id="agenda">
+          <div class="section-head">
             <div>
-              <div class="card-title">Today Radar</div>
-              <div class="card-subtitle">今天时间和注意力该往哪砸，一眼就该看出来。</div>
+              <div class="section-title">Agenda</div>
+              <div class="section-subtitle">今天的路线图。只放最关键的推进顺序。</div>
             </div>
             <div class="badge">Today</div>
           </div>
-          <div class="body stack">
-            <div class="agenda-item">
+          <div class="stack">
+            <div class="item">
               <div class="time">Now</div>
-              <h4>Mission Control v2 打磨</h4>
-              <p>继续靠近 Alex Finn 风格：更像 cockpit，而不是块状信息墙。</p>
+              <h4>Layout reset</h4>
+              <p>先把整个 dashboard 的导航秩序拉出来，不再让用户自己找信息。</p>
             </div>
-            <div class="agenda-item">
+            <div class="item">
               <div class="time">Next</div>
-              <h4>接真实数据</h4>
-              <p>把 memory、session、project feed 打到前端，而不是维持纯静态演示。</p>
+              <h4>Reduce noise</h4>
+              <p>精简废话、减少大段描述，把信息粒度收紧。</p>
             </div>
-            <div class="agenda-item">
+            <div class="item">
               <div class="time">Later</div>
-              <h4>加操作层</h4>
-              <p>Quick filters、command palette、项目展开、agent stream。</p>
+              <h4>Connect real feeds</h4>
+              <p>给 Projects / Memory / Agents 接上真实来源，而不是继续纯静态。</p>
             </div>
           </div>
-        </article>
+        </section>
 
-        <article class="card" data-panel="inbox">
-          <div class="card-header">
+        <section class="section" id="projects">
+          <div class="section-head">
             <div>
-              <div class="card-title">Inbox / Capture</div>
-              <div class="card-subtitle">不是所有信息都该变任务，先收口再分发。</div>
-            </div>
-            <div class="badge">Collect</div>
-          </div>
-          <div class="body stack">
-            <div class="capture">
-              <h4>Capture #01</h4>
-              <p>把 Alex Finn 的“操作系统感”做出来：少一点介绍，多一点控制感和密度。</p>
-            </div>
-            <div class="capture">
-              <h4>Capture #02</h4>
-              <p>后续最好加快捷录入：idea / todo / delegation / memory 四种类型。</p>
-            </div>
-            <div class="capture">
-              <h4>Capture #03</h4>
-              <p>记忆模块要从“卡片展示”升级成“能帮助当前决策”的信号流。</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="card" data-panel="metrics">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Health Metrics</div>
-              <div class="card-subtitle">系统健康、推进节奏、信息新鲜度。</div>
-            </div>
-            <div class="badge">Ops</div>
-          </div>
-          <div class="body stack">
-            <div class="metric-rail">
-              <div class="metric-panel">
-                <div class="tiny-title">dashboard maturity</div>
-                <div class="number">72%</div>
-                <p>从 v0 展示页进化到 v2 可操作骨架。</p>
-              </div>
-              <div class="metric-panel">
-                <div class="tiny-title">data readiness</div>
-                <div class="number">41%</div>
-                <p>已有数据源，但还没全部连到 UI。</p>
-              </div>
-            </div>
-            <div class="metric-panel">
-              <div class="tiny-title">signal graph</div>
-              <p>Memory / Tasks / Agent Outputs 的增长趋势占位。</p>
-              <div class="mini-chart"></div>
-            </div>
-          </div>
-        </article>
-      </aside>
-
-      <main class="column">
-        <article class="card" data-panel="focus">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Primary Focus</div>
-              <div class="card-subtitle">第一屏必须告诉你：现在最重要的是什么，为什么，下一步是谁做。</div>
-            </div>
-            <div class="badge">Priority 01</div>
-          </div>
-          <div class="body">
-            <div class="focus-card">
-              <div class="eyebrow">Main objective</div>
-              <h2>把 Maxler 从“看板”做成真正能驱动执行的 AI Command Center</h2>
-              <p>
-                现在的方向已经不再是简单美化页面，而是把 Simon 的工作流真正装进去：今日重点、项目状态、关键记忆、代理分工、文档入口、系统健康。
-                这才会像 Alex Finn 那类“每天愿意开着”的面板。
-              </p>
-              <div class="focus-grid">
-                <div class="subpanel stack">
-                  <div class="tiny-title">Top bets</div>
-                  <div class="task">
-                    <div class="bar"></div>
-                    <div>
-                      <h4>把面板压得更 dense</h4>
-                      <p>减少空话区，增加真正可决策的信息块。</p>
-                    </div>
-                    <div class="state"><span class="mini-dot"></span>Active</div>
-                  </div>
-                  <div class="task">
-                    <div class="bar yellow"></div>
-                    <div>
-                      <h4>加入轻交互视图切换</h4>
-                      <p>Operator / Founder / Builder 三种视角。</p>
-                    </div>
-                    <div class="state"><span class="mini-dot"></span>Live</div>
-                  </div>
-                </div>
-                <div class="subpanel stack">
-                  <div class="tiny-title">Critical blockers</div>
-                  <div class="agenda-item">
-                    <div class="time">Blocker</div>
-                    <h4>还没接真实数据</h4>
-                    <p>现在只是结构更像了，下一步得把 Memory / Agent / Project 数据真正接进去。</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article class="card" data-panel="tasks">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Priority Queue</div>
-              <div class="card-subtitle">按 leverage 排序，不按“想到什么做什么”。</div>
-            </div>
-            <div class="badge">Execution</div>
-          </div>
-          <div class="body stack view-operator">
-            <div class="task">
-              <div class="bar"></div>
-              <div>
-                <h4>Mission Control → 真数据版</h4>
-                <p>把本地记忆、项目、agent 状态喂入页面，形成活 dashboard。</p>
-                <div class="tags">
-                  <span class="tag red">High leverage</span>
-                  <span class="tag blue">Frontend</span>
-                  <span class="tag purple">System design</span>
-                </div>
-              </div>
-              <div class="state"><span class="mini-dot"></span>Queued</div>
-            </div>
-            <div class="task">
-              <div class="bar yellow"></div>
-              <div>
-                <h4>Project drill-down</h4>
-                <p>点进项目卡片能看到 owner、next action、source docs、recent changes。</p>
-                <div class="tags">
-                  <span class="tag yellow">UX</span>
-                  <span class="tag blue">Interaction</span>
-                </div>
-              </div>
-              <div class="state"><span class="mini-dot"></span>Next</div>
-            </div>
-            <div class="task">
-              <div class="bar blue"></div>
-              <div>
-                <h4>Agent activity stream</h4>
-                <p>补上最近 delegations、产出摘要、待接手任务。</p>
-                <div class="tags">
-                  <span class="tag green">Ops</span>
-                  <span class="tag purple">Delegation</span>
-                </div>
-              </div>
-              <div class="state"><span class="mini-dot"></span>Planned</div>
-            </div>
-          </div>
-
-          <div class="body stack hidden view-founder">
-            <div class="task">
-              <div class="bar"></div>
-              <div>
-                <h4>把系统变成你的 daily cockpit</h4>
-                <p>Founder 视角要看的是最重要的决策、最值钱的机会和最危险的卡点。</p>
-              </div>
-              <div class="state"><span class="mini-dot"></span>Focus</div>
-            </div>
-            <div class="task">
-              <div class="bar yellow"></div>
-              <div>
-                <h4>机会筛选层</h4>
-                <p>后面可以挂 VC 机会、BD 机会、内容机会三个管道。</p>
-              </div>
-              <div class="state"><span class="mini-dot"></span>Idea</div>
-            </div>
-          </div>
-
-          <div class="body stack hidden view-builder">
-            <div class="task">
-              <div class="bar"></div>
-              <div>
-                <h4>组件化与数据层</h4>
-                <p>Builder 视角优先看 schema、模块复用、前端状态管理和部署路径。</p>
-              </div>
-              <div class="state"><span class="mini-dot"></span>Build</div>
-            </div>
-            <div class="task">
-              <div class="bar yellow"></div>
-              <div>
-                <h4>本地 JSON feed</h4>
-                <p>先用静态 JSON 模拟真实数据，比直接硬编码在 HTML 里更稳。</p>
-              </div>
-              <div class="state"><span class="mini-dot"></span>Next</div>
-            </div>
-          </div>
-        </article>
-
-        <article class="card" data-panel="projects">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Projects Board</div>
-              <div class="card-subtitle">像真 operating system 一样看项目：状态、进度、下一步、关联信号。</div>
+              <div class="section-title">Projects</div>
+              <div class="section-subtitle">项目按主线展开，而不是混进所有杂项里。</div>
             </div>
             <div class="badge">Portfolio</div>
           </div>
-          <div class="body split-2">
-            <div class="project">
+          <div class="projects-grid">
+            <div class="item">
               <h4>Mission Control Dashboard</h4>
-              <p>目标是成为 Simon 的 AI cockpit，而不是一张漂亮截图。</p>
-              <div class="tags"><span class="tag red">P1</span><span class="tag green">Active build</span></div>
-              <div class="progress"><span style="width:76%"></span></div>
+              <p>当前主线：布局与信息架构重构，建立长期可扩展的 dashboard 骨架。</p>
+              <div class="tags"><span class="tag red">P1</span><span class="tag green">Active</span></div>
+              <div class="progress"><span style="width:82%"></span></div>
             </div>
-            <div class="project">
+            <div class="item">
               <h4>Discord Multi-Agent Company</h4>
-              <p>Code / Intel / Brainstorm 已部署，下一步是产出和任务流透明化。</p>
+              <p>已经完成 agent 部署，下一步是把任务流和产出流可视化。</p>
               <div class="tags"><span class="tag blue">Ops</span><span class="tag green">Live</span></div>
-              <div class="progress"><span style="width:79%"></span></div>
+              <div class="progress"><span style="width:78%"></span></div>
             </div>
-            <div class="project">
+            <div class="item">
               <h4>Memory Tagging System</h4>
-              <p>将“值得记住”的东西实时结构化，反哺 dashboard 决策层。</p>
+              <p>继续把“值得记住”的内容结构化，后面直接喂给 dashboard。</p>
               <div class="tags"><span class="tag yellow">Knowledge</span><span class="tag purple">Infra</span></div>
-              <div class="progress"><span style="width:57%"></span></div>
+              <div class="progress"><span style="width:58%"></span></div>
             </div>
-            <div class="project">
+            <div class="item">
               <h4>AI Content / Vibe Coding</h4>
-              <p>后面可以把内容选题、脚本、实验结果也拉进同一套面板里。</p>
+              <p>未来可把内容选题、脚本和实验结果纳入同一套 operating panel。</p>
               <div class="tags"><span class="tag purple">Content</span><span class="tag blue">Pipeline</span></div>
-              <div class="progress"><span style="width:44%"></span></div>
+              <div class="progress"><span style="width:45%"></span></div>
             </div>
           </div>
-        </article>
-      </main>
+        </section>
 
-      <aside class="column">
-        <article class="card" data-panel="agents">
-          <div class="card-header">
+        <section class="section" id="agents">
+          <div class="section-head">
             <div>
-              <div class="card-title">Agent Fleet</div>
-              <div class="card-subtitle">谁在线、谁该接任务、最近做了什么。</div>
+              <div class="section-title">Agents</div>
+              <div class="section-subtitle">单独成块，不跟任务和记忆混在一起。</div>
             </div>
             <div class="badge">Delegation</div>
           </div>
-          <div class="body stack">
-            <div class="agent">
-              <div>
-                <h4>💻 Code Agent</h4>
-                <p>最近产出：GitHub Pages 发布、v1/v2 前端重构。适合继续做真实数据接入。</p>
-                <div class="tags"><span class="tag blue">Build</span><span class="tag green">Ready</span></div>
-              </div>
-              <div class="state"><span class="mini-dot"></span>Online</div>
+          <div class="two-col">
+            <div class="item">
+              <h4>💻 Code Agent</h4>
+              <p>适合继续做前端重构、发布和后续真实数据接入。</p>
+              <div class="tags"><span class="tag blue">Build</span><span class="tag green">Ready</span></div>
             </div>
-            <div class="agent">
-              <div>
-                <h4>🔍 Intel Agent</h4>
-                <p>适合专门研究 Alex Finn 面板、AI OS 竞品、信息架构和 best practices。</p>
-                <div class="tags"><span class="tag yellow">Research</span><span class="tag purple">Standby</span></div>
-              </div>
-              <div class="state"><span class="mini-dot"></span>Online</div>
+            <div class="item">
+              <h4>🔍 Intel Agent</h4>
+              <p>适合专门研究 Alex Finn 类 dashboard、信息架构和竞品结构。</p>
+              <div class="tags"><span class="tag yellow">Research</span><span class="tag purple">Standby</span></div>
             </div>
-            <div class="agent">
-              <div>
-                <h4>🎯 Brainstorm Agent</h4>
-                <p>适合做 narrative、命名、使用场景、首页 framing 和产品感增强。</p>
-                <div class="tags"><span class="tag red">Creative</span><span class="tag blue">Standby</span></div>
-              </div>
-              <div class="state"><span class="mini-dot"></span>Online</div>
+            <div class="item">
+              <h4>🎯 Brainstorm Agent</h4>
+              <p>负责 narrative、命名、产品 framing 和体验细节补位。</p>
+              <div class="tags"><span class="tag red">Creative</span><span class="tag blue">Standby</span></div>
+            </div>
+            <div class="item">
+              <h4>Next delegation rule</h4>
+              <p>以后这里可以直接显示：谁最近完成了什么、接下来该派给谁。</p>
+              <div class="tags"><span class="tag green">Next</span><span class="tag purple">Workflow</span></div>
             </div>
           </div>
-        </article>
+        </section>
 
-        <article class="card" data-panel="memory">
-          <div class="card-header">
+        <section class="section" id="memory">
+          <div class="section-head">
             <div>
-              <div class="card-title">Memory Stream</div>
-              <div class="card-subtitle">不是档案馆，是对当前判断有帮助的信号流。</div>
+              <div class="section-title">Memory</div>
+              <div class="section-subtitle">记忆变成独立 section，减少和项目/日志混淆。</div>
             </div>
-            <div class="badge">Memory</div>
+            <div class="badge">Signal</div>
           </div>
-          <div class="body stack">
-            <div class="memory">
-              <h4>采用联邦式 multi-agent 架构</h4>
-              <p>Maxler 做 Hub，Code / Intel / Brainstorm 常驻，各自承担不同分工。</p>
+          <div class="stack">
+            <div class="item">
+              <h4>联邦式 multi-agent 架构已确定</h4>
+              <p>Maxler 做 Hub，Code / Intel / Brainstorm 常驻。这个已经是系统级决策，不是临时想法。</p>
               <div class="tags"><span class="tag red">Decision</span><span class="tag blue">Architecture</span></div>
             </div>
-            <div class="memory">
-              <h4>Dashboard 要服务决策，而不是展示存在感</h4>
-              <p>Alex Finn 风格的价值在于：高密度、有层级、帮你判断下一步。</p>
+            <div class="item">
+              <h4>Dashboard 的价值在于秩序，不在于信息数量</h4>
+              <p>这次反馈已经证明：右侧菜单和清晰层级比继续堆卡片更重要。</p>
               <div class="tags"><span class="tag yellow">Learning</span><span class="tag purple">Design principle</span></div>
             </div>
-            <div class="memory">
-              <h4>下一步必须是真数据</h4>
-              <p>继续堆静态卡片的收益很低，要开始接入 files / sessions / tasks feed。</p>
-              <div class="tags"><span class="tag green">Next move</span><span class="tag blue">Infra</span></div>
+            <div class="item">
+              <h4>先做结构，再接数据</h4>
+              <p>如果骨架不稳，接真实数据只会把混乱放大。</p>
+              <div class="tags"><span class="tag green">Strategy</span><span class="tag blue">Sequence</span></div>
             </div>
           </div>
-        </article>
+        </section>
 
-        <article class="card" data-panel="docs">
-          <div class="card-header">
+        <section class="section" id="documents">
+          <div class="section-head">
             <div>
-              <div class="card-title">Docs / Sources</div>
-              <div class="card-subtitle">真正好用的 dashboard 一定有快速跳转层。</div>
+              <div class="section-title">Documents</div>
+              <div class="section-subtitle">资料入口集中管理，不让它们散在页面各处。</div>
             </div>
-            <div class="badge">Links</div>
+            <div class="badge">Sources</div>
           </div>
-          <div class="body stack">
-            <div class="doc">
+          <div class="two-col">
+            <div class="item">
               <h4>Live Dashboard</h4>
-              <p><a href="https://simonchen6510-blip.github.io/mission-control-dashboard/" target="_blank">simonchen6510-blip.github.io/mission-control-dashboard</a></p>
+              <p>已部署到 GitHub Pages，后续所有迭代都从这里看效果。</p>
             </div>
-            <div class="doc">
-              <h4>Long-term Memory</h4>
-              <p>MEMORY.md 用来放稳定偏好、关键决策、长期状态。</p>
+            <div class="item">
+              <h4>MEMORY.md</h4>
+              <p>长期记忆层，用来沉淀稳定偏好、长期项目状态和关键决策。</p>
             </div>
-            <div class="doc">
+            <div class="item">
               <h4>Daily Memory</h4>
-              <p>memory/2026-03-18.md 里有今天关于 dashboard 和 multi-agent 的关键记录。</p>
+              <p>当日工作变化和过程记录，后续适合做 dashboard feed 来源。</p>
+            </div>
+            <div class="item">
+              <h4>Mission Control Source</h4>
+              <p>当前页面源文件为 `mission-control.html`，发布时转成 `index.html`。</p>
             </div>
           </div>
-        </article>
+        </section>
 
-        <article class="card" data-panel="logs">
-          <div class="card-header">
+        <section class="section" id="metrics">
+          <div class="section-head">
             <div>
-              <div class="card-title">Recent Logs</div>
-              <div class="card-subtitle">像 cockpit 一样显示最近变化，不让状态悬空。</div>
+              <div class="section-title">Metrics</div>
+              <div class="section-subtitle">最后再看健康度，不和主内容抢第一注意力。</div>
             </div>
-            <div class="badge">Feed</div>
+            <div class="badge">Health</div>
           </div>
-          <div class="body stack">
-            <div class="log-item">
-              <div class="time">11:52</div>
-              <h4>用户确认直接做 v2</h4>
-              <p>说明方向明确：少聊，多做。</p>
+          <div class="metrics-grid">
+            <div class="item metric-panel">
+              <div class="time">Layout clarity</div>
+              <div class="number">78%</div>
+              <p>比上一版更有目录感和主次感。</p>
             </div>
-            <div class="log-item">
-              <div class="time">11:49</div>
-              <h4>v1 成功上线</h4>
-              <p>GitHub Pages 已更新，页面进入可公开访问状态。</p>
+            <div class="item metric-panel">
+              <div class="time">Data readiness</div>
+              <div class="number">41%</div>
+              <p>真实数据接入仍是下一阶段核心任务。</p>
             </div>
-            <div class="log-item">
-              <div class="time">Earlier</div>
-              <h4>Mission Control 发布完成</h4>
-              <p>从本地 HTML 文件推送到 GitHub 仓库并启用 Pages。</p>
+            <div class="item metric-panel">
+              <div class="time">Noise reduction</div>
+              <div class="number">65%</div>
+              <p>还可以继续减文案、压块数、提纯重点。</p>
             </div>
           </div>
-        </article>
+        </section>
+      </main>
+
+      <aside class="sidebar">
+        <div class="nav-card">
+          <h3>Navigation</h3>
+          <nav class="nav-list" id="nav-list">
+            <a class="nav-link active" href="#overview" data-target="overview"><span>Overview</span><span class="nav-meta">01</span></a>
+            <a class="nav-link" href="#agenda" data-target="agenda"><span>Agenda</span><span class="nav-meta">02</span></a>
+            <a class="nav-link" href="#projects" data-target="projects"><span>Projects</span><span class="nav-meta">03</span></a>
+            <a class="nav-link" href="#agents" data-target="agents"><span>Agents</span><span class="nav-meta">04</span></a>
+            <a class="nav-link" href="#memory" data-target="memory"><span>Memory</span><span class="nav-meta">05</span></a>
+            <a class="nav-link" href="#documents" data-target="documents"><span>Documents</span><span class="nav-meta">06</span></a>
+            <a class="nav-link" href="#metrics" data-target="metrics"><span>Metrics</span><span class="nav-meta">07</span></a>
+          </nav>
+        </div>
+
+        <div class="nav-card">
+          <h3>Quick Notes</h3>
+          <div class="stack">
+            <div class="mini-note">
+              <h4>为什么这一版更对</h4>
+              <p>因为它先解决“怎么看”，再解决“看什么”。</p>
+            </div>
+            <div class="mini-note">
+              <h4>下一步最该做</h4>
+              <p>继续减噪音，然后再开始接真数据。</p>
+            </div>
+            <div class="mini-note">
+              <h4>长期方向</h4>
+              <p>把这里做成真正 daily-use 的 AI cockpit，而不是一次性 demo。</p>
+            </div>
+          </div>
+        </div>
       </aside>
-    </section>
+    </div>
 
     <footer class="footer">
-      <div>Maxler Mission Control v2 · Alex Finn 风格靠拢版 · Last updated <strong id="updated-at">--</strong></div>
+      <div>Maxler Mission Control v2.5 · Layout refactor · Last updated <strong id="updated-at">--</strong></div>
       <button class="refresh" onclick="location.reload()">↻ Refresh</button>
     </footer>
   </div>
 
   <script>
     const updatedAt = document.getElementById('updated-at');
-    const now = new Date();
     updatedAt.textContent = new Intl.DateTimeFormat('zh-CN', {
       hour12: false,
       year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
-    }).format(now);
+    }).format(new Date());
 
-    const switches = document.querySelectorAll('#view-switches .toggle');
-    const operator = document.querySelectorAll('.view-operator');
-    const founder = document.querySelectorAll('.view-founder');
-    const builder = document.querySelectorAll('.view-builder');
+    const sections = [...document.querySelectorAll('.section[id]')];
+    const links = [...document.querySelectorAll('.nav-link')];
 
-    const map = { operator, founder, builder };
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
 
-    function setView(view) {
-      Object.entries(map).forEach(([key, nodes]) => {
-        nodes.forEach(node => node.classList.toggle('hidden', key !== view));
-      });
-      switches.forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
-    }
+      if (!visible.length) return;
+      const id = visible[0].target.id;
+      links.forEach(link => link.classList.toggle('active', link.dataset.target === id));
+    }, {
+      rootMargin: '-15% 0px -55% 0px',
+      threshold: [0.2, 0.35, 0.55]
+    });
 
-    switches.forEach(btn => btn.addEventListener('click', () => setView(btn.dataset.view)));
-    setView('operator');
-
+    sections.forEach(section => observer.observe(section));
     setInterval(() => location.reload(), 45000);
   </script>
 </body>
