@@ -224,11 +224,73 @@
         '实现 WAL Protocol',
         '添加智能 Cron（条件触发而不仅是定时）'
       ],
+      runtimeSnapshot: {
+        capturedAt: '2026-03-18 12:45 GMT+8',
+        mainSession: {
+          name: 'Main Session',
+          model: 'gpt-5.4',
+          updated: 'just now',
+          tokensIn: '30k',
+          tokensOut: '688',
+          context: '63k/272k (23%)',
+          status: 'running'
+        },
+        activeTasks: [
+          {
+            name: 'Main Discord Controller',
+            sessionType: 'group',
+            model: 'gpt-5.4',
+            updated: 'just now',
+            totalTokens: '46.2k',
+            context: '272k',
+            state: 'active'
+          },
+          {
+            name: 'Recent Publish Worker',
+            sessionType: 'subagent',
+            model: 'gpt-5.4',
+            updated: '7m ago',
+            totalTokens: '14.8k',
+            context: '272k',
+            state: 'idle'
+          },
+          {
+            name: 'Previous Publish Worker',
+            sessionType: 'subagent',
+            model: 'gpt-5.4',
+            updated: '25m ago',
+            totalTokens: '16.7k',
+            context: '272k',
+            state: 'idle'
+          },
+          {
+            name: 'Cyberpunk Final Publish',
+            sessionType: 'subagent',
+            model: 'gpt-5.4',
+            updated: '33m ago',
+            totalTokens: '14.2k',
+            context: '272k',
+            state: 'idle'
+          },
+          {
+            name: 'intel-agent thread',
+            sessionType: 'group/thread',
+            model: 'k2p5',
+            updated: '3h ago',
+            totalTokens: '133.7k',
+            context: '262k',
+            state: 'heavy'
+          }
+        ]
+      },
       safeMetrics: {
         realProjectCount: 4,
         agentCount: 4,
         sourceFileCount: 3,
-        decisionCount: 4
+        decisionCount: 4,
+        sessionCount: 5,
+        activeCount: 1,
+        tokenHot: '133.7k'
       }
     };
   </script>
@@ -245,19 +307,19 @@
         </p>
         <div class="top-meta">
           <div class="meta-box">
-            <div class="k">real projects</div>
-            <div class="v" id="real-project-count">04</div>
-            <div class="s">来自 MEMORY.md</div>
+            <div class="k">live sessions</div>
+            <div class="v" id="session-count">05</div>
+            <div class="s">本次注入的后台任务数</div>
           </div>
           <div class="meta-box">
-            <div class="k">active agents</div>
-            <div class="v" id="real-agent-count">04</div>
-            <div class="s">来自今日 memory 日志</div>
+            <div class="k">active now</div>
+            <div class="v" id="active-session-count">01</div>
+            <div class="s">当前明确活跃的任务</div>
           </div>
           <div class="meta-box">
-            <div class="k">source files</div>
-            <div class="v" id="source-file-count">03</div>
-            <div class="s">本页真实数据来源</div>
+            <div class="k">token hotspot</div>
+            <div class="v" id="token-hot">133.7k</div>
+            <div class="s">当前最重 session</div>
           </div>
           <div class="meta-box">
             <div class="k">saved notes</div>
@@ -291,12 +353,13 @@
           <nav class="nav-list">
             <a class="nav-link active" href="#overview" data-target="overview"><span class="nav-main"><span class="nav-icon">⌁</span><span>Overview</span></span><span class="nav-meta">01</span></a>
             <a class="nav-link" href="#capture" data-target="capture"><span class="nav-main"><span class="nav-icon">✦</span><span>Capture</span></span><span class="nav-meta">02</span></a>
-            <a class="nav-link" href="#projects" data-target="projects"><span class="nav-main"><span class="nav-icon">⟡</span><span>Projects</span></span><span class="nav-meta">03</span></a>
-            <a class="nav-link" href="#agents" data-target="agents"><span class="nav-main"><span class="nav-icon">◉</span><span>Agents</span></span><span class="nav-meta">04</span></a>
-            <a class="nav-link" href="#memory" data-target="memory"><span class="nav-main"><span class="nav-icon">⬢</span><span>Memory</span></span><span class="nav-meta">05</span></a>
-            <a class="nav-link" href="#roadmap" data-target="roadmap"><span class="nav-main"><span class="nav-icon">△</span><span>Roadmap</span></span><span class="nav-meta">06</span></a>
-            <a class="nav-link" href="#links" data-target="links"><span class="nav-main"><span class="nav-icon">⌘</span><span>Links</span></span><span class="nav-meta">07</span></a>
-            <a class="nav-link" href="#metrics" data-target="metrics"><span class="nav-main"><span class="nav-icon">▣</span><span>Metrics</span></span><span class="nav-meta">08</span></a>
+            <a class="nav-link" href="#runtime" data-target="runtime"><span class="nav-main"><span class="nav-icon">◈</span><span>Runtime</span></span><span class="nav-meta">03</span></a>
+            <a class="nav-link" href="#projects" data-target="projects"><span class="nav-main"><span class="nav-icon">⟡</span><span>Projects</span></span><span class="nav-meta">04</span></a>
+            <a class="nav-link" href="#agents" data-target="agents"><span class="nav-main"><span class="nav-icon">◉</span><span>Agents</span></span><span class="nav-meta">05</span></a>
+            <a class="nav-link" href="#memory" data-target="memory"><span class="nav-main"><span class="nav-icon">⬢</span><span>Memory</span></span><span class="nav-meta">06</span></a>
+            <a class="nav-link" href="#roadmap" data-target="roadmap"><span class="nav-main"><span class="nav-icon">△</span><span>Roadmap</span></span><span class="nav-meta">07</span></a>
+            <a class="nav-link" href="#links" data-target="links"><span class="nav-main"><span class="nav-icon">⌘</span><span>Links</span></span><span class="nav-meta">08</span></a>
+            <a class="nav-link" href="#metrics" data-target="metrics"><span class="nav-main"><span class="nav-icon">▣</span><span>Metrics</span></span><span class="nav-meta">09</span></a>
           </nav>
         </div>
 
@@ -327,43 +390,43 @@
 
           <div class="focus-grid">
             <div class="focus-main">
-              <div class="eyebrow">Primary objective</div>
-              <h2>Mission Control 已经从纯 UI 壳，升级成基于真实 workspace 文件的快照首页</h2>
+              <div class="eyebrow">Runtime snapshot</div>
+              <h2>现在后台在跑哪些任务、谁最耗 token，这里直接给你看快照</h2>
               <p>
-                当前这页展示的是你系统里已经存在的真实状态摘要：项目主线、最近决策、agent 编排、最近更新和待推进路线。
-                下一阶段如果继续做，核心就是把“快照”升级成“实时读数”。
+                这一屏不再只讲项目摘要，而是注入当前 sessions / subagents 的真实快照。
+                你能直接看到主会话、最近子任务、重负载线程，以及这次截取时的 token 量级。
               </p>
               <div class="mini-grid">
                 <div class="mini-box">
-                  <div class="tiny-label">data type</div>
-                  <div class="v">REAL</div>
+                  <div class="tiny-label">main session</div>
+                  <div class="v" id="main-session-tokens">30k</div>
                 </div>
                 <div class="mini-box">
-                  <div class="tiny-label">privacy</div>
-                  <div class="v">SAFE</div>
+                  <div class="tiny-label">heaviest task</div>
+                  <div class="v">133.7k</div>
                 </div>
                 <div class="mini-box">
-                  <div class="tiny-label">next phase</div>
-                  <div class="v">LIVE API</div>
+                  <div class="tiny-label">captured at</div>
+                  <div class="v" style="font-size:16px;">12:45</div>
                 </div>
               </div>
             </div>
 
             <div class="stack">
               <div class="card">
-                <div class="time">Source</div>
-                <h3>真实源文件</h3>
-                <p id="source-files">MEMORY.md / memory/2026-03-18.md / mission-control.html</p>
+                <div class="time">Main</div>
+                <h3 id="main-session-title">Main Session · gpt-5.4</h3>
+                <p id="main-session-summary">30k in / 688 out · context 63k/272k (23%) · updated just now</p>
               </div>
               <div class="card">
-                <div class="time">State</div>
-                <h3>当前是快照，不是直播</h3>
-                <p>这版已经真实，但还不是在线实时拉取。</p>
+                <div class="time">Hotspot</div>
+                <h3>intel-agent thread</h3>
+                <p>132k in / 259 out · context 134k/262k (51%) · 3h ago</p>
               </div>
               <div class="card">
-                <div class="time">Use</div>
-                <h3>可以当首页用</h3>
-                <p>打开就能看到当前主线、agent、关键决策和下一步路线。</p>
+                <div class="time">Mode</div>
+                <h3>Snapshot injection</h3>
+                <p>浏览器刷新不会自动拉新数据；需要重新注入并发布一次。</p>
               </div>
             </div>
           </div>
@@ -394,6 +457,17 @@
               <div class="notes-feed" id="notes-feed"></div>
             </div>
           </div>
+        </section>
+
+        <section class="hud section" id="runtime">
+          <div class="section-head">
+            <div>
+              <div class="section-title">Runtime Tasks</div>
+              <div class="section-subtitle">当前后台 session / subagent 快照。你要看的“现在在跑哪些任务、消耗怎样”就在这里。</div>
+            </div>
+            <div class="badge">Injected runtime snapshot</div>
+          </div>
+          <div class="stack" id="runtime-tasks-list"></div>
         </section>
 
         <section class="hud section" id="projects">
@@ -479,25 +553,25 @@
           <div class="section-head">
             <div>
               <div class="section-title">Metrics</div>
-              <div class="section-subtitle">这里的数值也改成真实快照计数。</div>
+              <div class="section-subtitle">这里混合展示 runtime 消耗和安全摘要指标。</div>
             </div>
-            <div class="badge">Safe metrics</div>
+            <div class="badge">Runtime + safe metrics</div>
           </div>
           <div class="metrics-grid">
             <div class="item metric-panel">
-              <div class="time">real projects</div>
-              <div class="number" id="metric-projects">4</div>
-              <p>来自 MEMORY.md 当前项目列表。</p>
+              <div class="time">main session tokens</div>
+              <div class="number" id="metric-main-tokens">30k</div>
+              <p>当前主会话输入 token 快照。</p>
             </div>
             <div class="item metric-panel">
-              <div class="time">tracked agents</div>
-              <div class="number" id="metric-agents">4</div>
-              <p>来自今日 memory 日志当前状态。</p>
+              <div class="time">active sessions</div>
+              <div class="number" id="metric-active-sessions">1</div>
+              <p>当前注入快照里明确活跃的任务数。</p>
             </div>
             <div class="item metric-panel">
-              <div class="time">key decisions</div>
-              <div class="number" id="metric-decisions">4</div>
-              <p>来自长期记忆里的最近关键决策。</p>
+              <div class="time">heaviest task</div>
+              <div class="number" id="metric-heavy-task">133.7k</div>
+              <p>当前最重后台线程 token 体量。</p>
             </div>
           </div>
         </section>
@@ -517,14 +591,30 @@
       year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
     }).format(new Date());
 
-    document.getElementById('snapshot-time').textContent = REAL_DATA.snapshotAt;
+    document.getElementById('snapshot-time').textContent = REAL_DATA.runtimeSnapshot.capturedAt;
     document.getElementById('source-files').textContent = REAL_DATA.sourceFiles.join(' / ');
-    document.getElementById('real-project-count').textContent = String(REAL_DATA.safeMetrics.realProjectCount).padStart(2, '0');
-    document.getElementById('real-agent-count').textContent = String(REAL_DATA.safeMetrics.agentCount).padStart(2, '0');
-    document.getElementById('source-file-count').textContent = String(REAL_DATA.safeMetrics.sourceFileCount).padStart(2, '0');
-    document.getElementById('metric-projects').textContent = REAL_DATA.safeMetrics.realProjectCount;
-    document.getElementById('metric-agents').textContent = REAL_DATA.safeMetrics.agentCount;
-    document.getElementById('metric-decisions').textContent = REAL_DATA.safeMetrics.decisionCount;
+    document.getElementById('session-count').textContent = String(REAL_DATA.safeMetrics.sessionCount).padStart(2, '0');
+    document.getElementById('active-session-count').textContent = String(REAL_DATA.safeMetrics.activeCount).padStart(2, '0');
+    document.getElementById('token-hot').textContent = REAL_DATA.safeMetrics.tokenHot;
+    document.getElementById('main-session-tokens').textContent = REAL_DATA.runtimeSnapshot.mainSession.tokensIn;
+    document.getElementById('main-session-title').textContent = `${REAL_DATA.runtimeSnapshot.mainSession.name} · ${REAL_DATA.runtimeSnapshot.mainSession.model}`;
+    document.getElementById('main-session-summary').textContent = `${REAL_DATA.runtimeSnapshot.mainSession.tokensIn} in / ${REAL_DATA.runtimeSnapshot.mainSession.tokensOut} out · context ${REAL_DATA.runtimeSnapshot.mainSession.context} · updated ${REAL_DATA.runtimeSnapshot.mainSession.updated}`;
+    document.getElementById('metric-main-tokens').textContent = REAL_DATA.runtimeSnapshot.mainSession.tokensIn;
+    document.getElementById('metric-active-sessions').textContent = REAL_DATA.safeMetrics.activeCount;
+    document.getElementById('metric-heavy-task').textContent = REAL_DATA.safeMetrics.tokenHot;
+
+    const runtimeTasksList = document.getElementById('runtime-tasks-list');
+    runtimeTasksList.innerHTML = REAL_DATA.runtimeSnapshot.activeTasks.map((task, i) => `
+      <div class="item">
+        <div class="time">${escapeHtml(task.sessionType)} · ${escapeHtml(task.updated)}</div>
+        <h4>${escapeHtml(task.name)}</h4>
+        <p>model ${escapeHtml(task.model)} · total ${escapeHtml(task.totalTokens)} · context ${escapeHtml(task.context)}</p>
+        <div class="tags">
+          <span class="tag ${task.state === 'active' ? 'green' : task.state === 'heavy' ? 'pink' : 'cyan'}">${escapeHtml(task.state)}</span>
+          <span class="tag ${['cyan','yellow','purple','orange','pink'][i % 5]}">snapshot</span>
+        </div>
+      </div>
+    `).join('');
 
     const projectsGrid = document.getElementById('projects-grid');
     const projectWidths = [84, 77, 68, 59];
