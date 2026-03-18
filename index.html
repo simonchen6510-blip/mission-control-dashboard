@@ -225,14 +225,14 @@
         '添加智能 Cron（条件触发而不仅是定时）'
       ],
       runtimeSnapshot: {
-        capturedAt: '2026-03-18 12:45 GMT+8',
+        capturedAt: '2026-03-18 12:50 GMT+8',
         mainSession: {
           name: 'Main Session',
           model: 'gpt-5.4',
           updated: 'just now',
-          tokensIn: '30k',
-          tokensOut: '688',
-          context: '63k/272k (23%)',
+          tokensIn: '53k',
+          tokensOut: '283',
+          context: '54k/272k (20%)',
           status: 'running'
         },
         activeTasks: [
@@ -241,43 +241,43 @@
             sessionType: 'group',
             model: 'gpt-5.4',
             updated: 'just now',
-            totalTokens: '46.2k',
+            totalTokens: '54.3k',
             context: '272k',
             state: 'active'
           },
           {
-            name: 'Recent Publish Worker',
+            name: 'Latest Snapshot Publisher',
             sessionType: 'subagent',
             model: 'gpt-5.4',
-            updated: '7m ago',
-            totalTokens: '14.8k',
-            context: '272k',
-            state: 'idle'
-          },
-          {
-            name: 'Previous Publish Worker',
-            sessionType: 'subagent',
-            model: 'gpt-5.4',
-            updated: '25m ago',
-            totalTokens: '16.7k',
-            context: '272k',
-            state: 'idle'
-          },
-          {
-            name: 'Cyberpunk Final Publish',
-            sessionType: 'subagent',
-            model: 'gpt-5.4',
-            updated: '33m ago',
+            updated: '2m ago',
             totalTokens: '14.2k',
             context: '272k',
             state: 'idle'
           },
           {
-            name: 'intel-agent thread',
-            sessionType: 'group/thread',
+            name: 'Previous Snapshot Publisher',
+            sessionType: 'subagent',
+            model: 'gpt-5.4',
+            updated: '12m ago',
+            totalTokens: '14.8k',
+            context: '272k',
+            state: 'idle'
+          },
+          {
+            name: 'Historic Publish Worker',
+            sessionType: 'subagent',
+            model: 'gpt-5.4',
+            updated: '29m ago',
+            totalTokens: '16.7k',
+            context: '272k',
+            state: 'idle'
+          },
+          {
+            name: 'Legacy Repo Push Session',
+            sessionType: 'subagent',
             model: 'k2p5',
             updated: '3h ago',
-            totalTokens: '133.7k',
+            totalTokens: '44.7k',
             context: '262k',
             state: 'heavy'
           }
@@ -290,7 +290,7 @@
         decisionCount: 4,
         sessionCount: 5,
         activeCount: 1,
-        tokenHot: '133.7k'
+        tokenHot: '54.3k'
       }
     };
   </script>
@@ -403,11 +403,11 @@
                 </div>
                 <div class="mini-box">
                   <div class="tiny-label">heaviest task</div>
-                  <div class="v">133.7k</div>
+                  <div class="v">54.3k</div>
                 </div>
                 <div class="mini-box">
                   <div class="tiny-label">captured at</div>
-                  <div class="v" style="font-size:16px;">12:45</div>
+                  <div class="v" style="font-size:16px;">12:50</div>
                 </div>
               </div>
             </div>
@@ -420,8 +420,8 @@
               </div>
               <div class="card">
                 <div class="time">Hotspot</div>
-                <h3>intel-agent thread</h3>
-                <p>132k in / 259 out · context 134k/262k (51%) · 3h ago</p>
+                <h3>Main Discord Controller</h3>
+                <p>53k in / 283 out · context 54k/272k (20%) · just now</p>
               </div>
               <div class="card">
                 <div class="time">Mode</div>
