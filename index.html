@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maxler Inc. - Mission Control</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f23;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 20px 30px;
+            border-bottom: 2px solid #e94560;
+        }
+        .header h1 {
+            color: #e94560;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        .header .subtitle {
+            color: #888;
+            font-size: 14px;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .panel {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #2a2a3e;
+        }
+        .panel h2 {
+            color: #e94560;
+            font-size: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .panel h2::before {
+            content: '';
+            width: 4px;
+            height: 16px;
+            background: #e94560;
+            border-radius: 2px;
+        }
+        
+        /* Agent Status */
+        .agent-card {
+            background: #0f0f23;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 3px solid #00d9ff;
+            transition: transform 0.2s;
+        }
+        .agent-card:hover {
+            transform: translateX(5px);
+        }
+        .agent-card.brainstorm { border-left-color: #ff6b6b; }
+        .agent-card.intel { border-left-color: #ffd93d; }
+        .agent-card.code { border-left-color: #00d9ff; }
+        .agent-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .agent-channel {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        .agent-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: #16213e;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00d9ff;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Task Flow */
+        .task-item {
+            background: #0f0f23;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 3px solid #e94560;
+        }
+        .task-time {
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+        .task-content {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .task-assignee {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 8px;
+            background: #e94560;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+        
+        /* Memory Highlights */
+        .memory-tag {
+            display: inline-block;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 6px;
+            font-weight: 600;
+        }
+        .tag-decision { background: #e94560; color: white; }
+        .tag-idea { background: #ffd93d; color: #0f0f23; }
+        .tag-todo { background: #00d9ff; color: #0f0f23; }
+        .tag-learning { background: #6bcb77; color: #0f0f23; }
+        .tag-project { background: #9b59b6; color: white; }
+        
+        .memory-item {
+            background: #0f0f23;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        /* Stats */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .stat-box {
+            background: #0f0f23;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #e94560;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        /* Refresh button */
+        .refresh-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .refresh-btn:hover {
+            background: #ff6b6b;
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏢 Maxler Inc.</h1>
+        <div class="subtitle">Mission Control Dashboard • Web3 / RWA / AI Content</div>
+    </div>
+    
+    <div class="container">
+        <!-- Left Panel: Agent Status -->
+        <div class="panel">
+            <h2>Team Status</h2>
+            
+            <div class="agent-card code">
+                <div class="agent-name">💻 Code Agent</div>
+                <div class="agent-channel">#code-agent</div>
+                <div class="agent-status">
+                    <span class="status-dot"></span>
+                    <span>Online • Idle</span>
+                </div>
+            </div>
+            
+            <div class="agent-card intel">
+                <div class="agent-name">🔍 Intel Agent</div>
+                <div class="agent-channel">#intel-agent</div>
+                <div class="agent-status">
+                    <span class="status-dot"></span>
+                    <span>Online • Idle</span>
+                </div>
+            </div>
+            
+            <div class="agent-card brainstorm">
+                <div class="agent-name">🎯 Brainstorm Agent</div>
+                <div class="agent-channel">#brainstorm</div>
+                <div class="agent-status">
+                    <span class="status-dot"></span>
+                    <span>Online • Idle</span>
+                </div>
+            </div>
+            
+            <div class="stat-grid">
+                <div class="stat-box">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Active Agents</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Pending Tasks</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Center Panel: Task Flow -->
+        <div class="panel">
+            <h2>Today's Activity</h2>
+            
+            <div class="task-item">
+                <div class="task-time">09:30 - 09:45</div>
+                <div class="task-content">
+                    搭建 Discord 多 Agent 公司架构<br>
+                    完成 3 个常驻 subagent 部署
+                </div>
+                <span class="task-assignee">Maxler (CEO)</span>
+            </div>
+            
+            <div class="task-item">
+                <div class="task-time">09:42</div>
+                <div class="task-content">
+                    同步公司知识到所有 agents<br>
+                    Code Agent 确认收到
+                </div>
+                <span class="task-assignee">Maxler → All Agents</span>
+            </div>
+            
+            <div class="task-item">
+                <div class="task-time">09:51</div>
+                <div class="task-content">
+                    实现实时记忆标签化 + Mission Control Dashboard<br>
+                    改进方案 A+B 开始执行
+                </div>
+                <span class="task-assignee">Maxler</span>
+            </div>
+        </div>
+        
+        <!-- Right Panel: Memory Highlights -->
+        <div class="panel">
+            <h2>Key Memories</h2>
+            
+            <div class="memory-item">
+                <span class="memory-tag tag-decision">决策</span>
+                采用联邦式 subagent 架构<br>
+                Maxler 作为 Hub，3 个专业 agent 常驻
+            </div>
+            
+            <div class="memory-item">
+                <span class="memory-tag tag-decision">决策</span>
+                选择 A+B 改进方案<br>
+                实时记忆标签化 + Mission Control
+            </div>
+            
+            <div class="memory-item">
+                <span class="memory-tag tag-project">项目</span>
+                完成 Discord 公司架构搭建<br>
+                3 个常驻 subagent 就绪
+            </div>
+            
+            <div class="memory-item">
+                <span class="memory-tag tag-learning">学习</span>
+                Alex Finn 记忆法：<br>
+                只记录"值得记住"的，实时标签化
+            </div>
+        </div>
+    </div>
+    
+    <button class="refresh-btn" onclick="location.reload()">🔄 Refresh</button>
+    
+    <script>
+        // Auto-refresh every 30 seconds
+        setInterval(() => {
+            location.reload();
+        }, 30000);
+        
+        // Update timestamp
+        document.querySelectorAll('.task-time').forEach(el => {
+            // Add real-time updates here if needed
+        });
+    </script>
+</body>
+</html>
