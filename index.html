@@ -591,17 +591,22 @@
       year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
     }).format(new Date());
 
-    document.getElementById('snapshot-time').textContent = REAL_DATA.runtimeSnapshot.capturedAt;
-    document.getElementById('source-files').textContent = REAL_DATA.sourceFiles.join(' / ');
-    document.getElementById('session-count').textContent = String(REAL_DATA.safeMetrics.sessionCount).padStart(2, '0');
-    document.getElementById('active-session-count').textContent = String(REAL_DATA.safeMetrics.activeCount).padStart(2, '0');
-    document.getElementById('token-hot').textContent = REAL_DATA.safeMetrics.tokenHot;
-    document.getElementById('main-session-tokens').textContent = REAL_DATA.runtimeSnapshot.mainSession.tokensIn;
-    document.getElementById('main-session-title').textContent = `${REAL_DATA.runtimeSnapshot.mainSession.name} · ${REAL_DATA.runtimeSnapshot.mainSession.model}`;
-    document.getElementById('main-session-summary').textContent = `${REAL_DATA.runtimeSnapshot.mainSession.tokensIn} in / ${REAL_DATA.runtimeSnapshot.mainSession.tokensOut} out · context ${REAL_DATA.runtimeSnapshot.mainSession.context} · updated ${REAL_DATA.runtimeSnapshot.mainSession.updated}`;
-    document.getElementById('metric-main-tokens').textContent = REAL_DATA.runtimeSnapshot.mainSession.tokensIn;
-    document.getElementById('metric-active-sessions').textContent = REAL_DATA.safeMetrics.activeCount;
-    document.getElementById('metric-heavy-task').textContent = REAL_DATA.safeMetrics.tokenHot;
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    setText('snapshot-time', REAL_DATA.runtimeSnapshot.capturedAt);
+    setText('source-files', REAL_DATA.sourceFiles.join(' / '));
+    setText('session-count', String(REAL_DATA.safeMetrics.sessionCount).padStart(2, '0'));
+    setText('active-session-count', String(REAL_DATA.safeMetrics.activeCount).padStart(2, '0'));
+    setText('token-hot', REAL_DATA.safeMetrics.tokenHot);
+    setText('main-session-tokens', REAL_DATA.runtimeSnapshot.mainSession.tokensIn);
+    setText('main-session-title', `${REAL_DATA.runtimeSnapshot.mainSession.name} · ${REAL_DATA.runtimeSnapshot.mainSession.model}`);
+    setText('main-session-summary', `${REAL_DATA.runtimeSnapshot.mainSession.tokensIn} in / ${REAL_DATA.runtimeSnapshot.mainSession.tokensOut} out · context ${REAL_DATA.runtimeSnapshot.mainSession.context} · updated ${REAL_DATA.runtimeSnapshot.mainSession.updated}`);
+    setText('metric-main-tokens', REAL_DATA.runtimeSnapshot.mainSession.tokensIn);
+    setText('metric-active-sessions', REAL_DATA.safeMetrics.activeCount);
+    setText('metric-heavy-task', REAL_DATA.safeMetrics.tokenHot);
 
     const runtimeTasksList = document.getElementById('runtime-tasks-list');
     runtimeTasksList.innerHTML = REAL_DATA.runtimeSnapshot.activeTasks.map((task, i) => `
