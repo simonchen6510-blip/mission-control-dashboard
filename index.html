@@ -307,19 +307,19 @@
         </p>
         <div class="top-meta">
           <div class="meta-box">
-            <div class="k">live sessions</div>
+            <div class="k">captured sessions</div>
             <div class="v" id="session-count">05</div>
-            <div class="s">本次注入的后台任务数</div>
+            <div class="s">上次发布时注入的后台任务数</div>
           </div>
           <div class="meta-box">
-            <div class="k">active now</div>
+            <div class="k">captured active</div>
             <div class="v" id="active-session-count">01</div>
-            <div class="s">当前明确活跃的任务</div>
+            <div class="s">上次发布时明确活跃的任务</div>
           </div>
           <div class="meta-box">
-            <div class="k">token hotspot</div>
+            <div class="k">token hotspot snapshot</div>
             <div class="v" id="token-hot">133.7k</div>
-            <div class="s">当前最重 session</div>
+            <div class="s">上次发布时最重 session</div>
           </div>
           <div class="meta-box">
             <div class="k">saved notes</div>
@@ -331,8 +331,8 @@
 
       <div class="summary-panel">
         <div class="summary-card">
-          <h3>Real data scope</h3>
-          <p>接了真实文件摘要，但没有把私密全文整段公开。现在是“真实快照版”，不是在线 API 版。</p>
+          <h3>Snapshot scope</h3>
+          <p>这页使用真实来源的数据，但展示的是“上次发布时的快照”。不是实时在线 API，也不会随页面刷新自动更新。</p>
         </div>
         <div class="summary-card">
           <h3>Snapshot time</h3>
@@ -390,11 +390,11 @@
 
           <div class="focus-grid">
             <div class="focus-main">
-              <div class="eyebrow">Runtime snapshot</div>
-              <h2>现在后台在跑哪些任务、谁最耗 token，这里直接给你看快照</h2>
+              <div class="eyebrow">Published runtime snapshot</div>
+              <h2>这里展示的是上次发布时捕获的运行状态，不是实时监控</h2>
               <p>
-                这一屏不再只讲项目摘要，而是注入当前 sessions / subagents 的真实快照。
-                你能直接看到主会话、最近子任务、重负载线程，以及这次截取时的 token 量级。
+                这一屏展示的是发布 dashboard 时注入的 sessions / subagents 快照。
+                你现在看到的主会话、子任务和 token 量级都来自最近一次发布时刻，而不是打开页面这一秒的实时状态。
               </p>
               <div class="mini-grid">
                 <div class="mini-box">
@@ -425,8 +425,8 @@
               </div>
               <div class="card">
                 <div class="time">Mode</div>
-                <h3>Snapshot injection</h3>
-                <p>浏览器刷新不会自动拉新数据；需要重新注入并发布一次。</p>
+                <h3>Last publish snapshot</h3>
+                <p>浏览器刷新不会自动拉新数据；需要重新抓取快照并重新发布一次。</p>
               </div>
             </div>
           </div>
@@ -462,10 +462,10 @@
         <section class="hud section" id="runtime">
           <div class="section-head">
             <div>
-              <div class="section-title">Runtime Tasks</div>
-              <div class="section-subtitle">当前后台 session / subagent 快照。你要看的“现在在跑哪些任务、消耗怎样”就在这里。</div>
+              <div class="section-title">Runtime Snapshot</div>
+              <div class="section-subtitle">这里是上次发布时注入的后台 session / subagent 快照，用来看当时在跑哪些任务、消耗怎样。</div>
             </div>
-            <div class="badge">Injected runtime snapshot</div>
+            <div class="badge">Last publish snapshot</div>
           </div>
           <div class="stack" id="runtime-tasks-list"></div>
         </section>
